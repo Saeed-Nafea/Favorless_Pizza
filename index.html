@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Terminal Typing Pro</title>
+</head>
+<body>
+
+    <center>
+        <marquee scrollamount="10">⌨️ TEST YOUR SPEED ⌨️ BECOME A MASTER CODER ⌨️ NO CSS ALLOWED ⌨️</marquee>
+        <h1>Terminal Typing Speed Test</h1>
+    </center>
+
+    <hr>
+
+    <h3>Objective:</h3>
+    <p>Type the following sentence exactly as shown in the <kbd>input</kbd> field below. The timer starts as soon as you begin typing.</p>
+    
+    <blockquote>
+        <samp id="targetText">The quick brown fox jumps over the lazy dog while the developer writes clean, flavorless HTML code.</samp>
+    </blockquote>
+
+    <hr>
+
+    <center>
+        <textarea id="userInput" rows="4" cols="50" placeholder="Start typing here..." oninput="startTest()"></textarea>
+        <br><br>
+        <button onclick="resetTest()">🔄 Reset Test</button>
+    </center>
+
+    <hr>
+
+    <h3>Live Performance Metrics</h3>
+    <table border="1" cellpadding="10" width="100%">
+        <tr>
+            <th>Time Elapsed</th>
+            <th>Accuracy</th>
+            <th>WPM (Words Per Minute)</th>
+        </tr>
+        <tr>
+            <td>
+                <center>
+                    <b id="timer">0</b> seconds
+                </center>
+            </td>
+            <td>
+                <center>
+                    <meter id="accuracyMeter" min="0" max="100" low="50" high="80" optimum="100" value="0"></meter>
+                    <br><span id="accuracyLabel">0%</span>
+                </center>
+            </td>
+            <td>
+                <center>
+                    <progress id="wpmProgress" value="0" max="120"></progress>
+                    <br><span id="wpmLabel">0 WPM</span>
+                </center>
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <dialog id="resultModal">
+        <h2>⌨️ Test Complete!</h2>
+        <p>Excellent work, speedster. Here are your final logs:</p>
+        <ul>
+            <li><b>Total Time:</b> <span id="finalTime"></span>s</li>
+            <li><b>Final Accuracy:</b> <span id="finalAccuracy"></span>%</li>
+            <li><b>Final WPM:</b> <span id="finalWPM"></span></li>
+        </ul>
+        <samp>System Status: Data Saved to Local Archive.</samp>
+        <br><br>
+        <button onclick="document.getElementById('resultModal').close()">Close</button>
+    </dialog>
+
+    <hr>
+    <p><small>Reference: Standard <abbr title="Words Per Minute">WPM</abbr> Calculation Method.</small></p>
+
+    <script>
+        let timerStarted = false;
+        let startTime;
+        let timerInterval;
+        const target = document.getElementById('targetText').innerText;
+
+        function startTest() {
+            if (!timerStarted) {
+                timerStarted = true;
+                startTime = Date.now();
+                timerInterval = setInterval(updateTimer, 100);
+            }
+            checkText();
+        }
+
+        function updateTimer() {
+            const now = Date.now();
+            const elapsed = Math.floor((now - startTime) / 1000);
+            document.getElementById('timer').innerText = elapsed;
+        }
+
+        function checkText() {
+            const input = document.getElementById('userInput').value;
+            const accuracyMeter = document.getElementById('accuracyMeter');
+            const wpmProgress = document.getElementById('wpmProgress');
+
+            
+            let matches = 0;
+            for (let i = 0; i < input.length; i++) {
+                if (input[i] === target[i]) matches++;
+            }
+            const accuracy = input.length > 0 ? Math.floor((matches / input.length) * 100) : 0;
+            accuracyMeter.value = accuracy;
+            document.getElementById('accuracyLabel').innerText = accuracy + "%";
+
+            const elapsedMinutes = (Date.now() - startTime) / 60000;
+            const wpm = elapsedMinutes > 0 ? Math.floor((input.length / 5) / elapsedMinutes) : 0;
+            wpmProgress.value = wpm;
+            document.getElementById('wpmLabel').innerText = wpm + " WPM";
+
+            
+            if (input === target) {
+                clearInterval(timerInterval);
+                showResults(accuracy, wpm);
+            }
+        }
+
+        function showResults(acc, wpm) {
+            document.getElementById('finalTime').innerText = document.getElementById('timer').innerText;
+            document.getElementById('finalAccuracy').innerText = acc;
+            document.getElementById('finalWPM').innerText = wpm;
+            document.getElementById('resultModal').showModal();
+        }
+
+        function resetTest() {
+            location.reload();
+        }
+    </script>
+
+</body>
+</html>
