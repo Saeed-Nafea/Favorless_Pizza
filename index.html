@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Easy Pizza</title>
+</head>
+<body>
+
+    <center>
+        <marquee>🍕 PIZZA IS COMING! SUBMIT YOUR SITES NOW! 🍕</marquee>
+        <h1>Pizza Workshop Dashboard</h1>
+        <p>Status: <strong>Building in progress...</strong></p>
+    </center>
+
+    <hr>
+
+    <details>
+        <summary>View Workshop Rules</summary>
+        <ul>
+            <li>No <mark>CSS</mark> allowed (No styles!)</li>
+            <li>No inline style attributes</li>
+            <li>Use <kbd>HTML</kbd> and <kbd>JS</kbd> only</li>
+            <li>Make it ugly on purpose</li>
+        </ul>
+    </details>
+
+    <br>
+
+    <table border="1">
+        <caption>Participant Progress</caption>
+        <thead>
+            <tr>
+                <th>Hacker Name</th>
+                <th>Project Status</th>
+                <th>Pizza Eligibility</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Saeed</td>
+                <td>Coding...</td>
+                <td>Pending</td>
+            </tr>
+            <tr>
+                <td>Amr</td>
+                <td>Finished</td>
+                <td>READY 🍕</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <label>Global Submission Progress:</label>
+    <progress id="p-bar" value="30" max="100"></progress>
+    <br>
+    <label>Pizza Oven Temperature:</label>
+    <meter min="0" max="100" low="30" high="80" optimum="90" value="85"></meter>
+
+    <hr>
+
+    <form id="pizzaForm">
+        <h3>RSVP for Pizza (Please Respond but in French)</h3>
+        <label>Enter your name:</label>
+        <input type="text" id="userName" placeholder="Type here...">
+        
+        <br><br>
+
+        <label>Choose your favorite topping:</label>
+        <input list="toppings" id="toppingChoice">
+        <datalist id="toppings">
+            <option value="Pepperoni">
+            <option value="Cheese">
+            <option value="Mushroom">
+			<option value="Chicken Ranch">
+			<option value="Sea Food">
+			<option value="Roman Pizza">
+            <option value="Pineapple (I dare you)">
+        </datalist>
+
+        <br><br>
+
+        <button type="button" onclick="submitForm()">Submit RSVP</button>
+    </form>
+
+    <dialog id="thankYouBox">
+        <p>Thanks for RSVPing! Use <kbd>Esc</kbd> to close this.</p>
+        <button onclick="document.getElementById('thankYouBox').close()">Close</button>
+    </dialog>
+
+    <hr>
+
+    <p>How we feel about CSS right now:</p>
+    <pre>
+    _________________
+    |                |
+    |   NO CSS ZONE  |
+    |________________|
+           |  |
+           |  |
+		   WHY CAN NOT WE USE CSS IM NOT HAPPY I COUL HAVE DONE BETTER
+		   Any Wy do not forget my pizza Buddy Im waiting For it
+    </pre>
+
+    <script>
+        function submitForm() {
+            var name = document.getElementById('userName').value;
+            var topping = document.getElementById('toppingChoice').value;
+            
+            if(name === "" || topping === "") {
+                alert("Please fill out the form!");
+            } else {
+                var modal = document.getElementById('thankYouBox');
+                modal.showModal();
+                
+                var bar = document.getElementById('p-bar');
+                bar.value = bar.value + 10;
+                
+                console.log("RSVP received for: " + name);
+            }
+        }
+    </script>
+
+</body>
+</html>
